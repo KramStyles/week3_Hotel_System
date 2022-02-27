@@ -1,4 +1,3 @@
-
 class Table:
     def __init__(self, *fields):
         self.data = {}
@@ -8,6 +7,13 @@ class Table:
     def insert(self, **params):
         # Requirements:
         #   - Add a record entry to the self.data dictionary
+        if not isinstance(params, dict): print("We are expecting a proper dictionary")
+        elif not params: print("We are not expecting an empty dictionary")
+        elif tuple(params.keys()) != self.fields: print("The keys don't match. Check your input")
+        else: self.data = params
+
+        # self.data = params
+        # print(self.data)
 
         #   - BUT ::::
         #   - Validate that params is a (1) dictionary (2) non-empty (3) Keys are in self.fields list
@@ -29,3 +35,7 @@ class Table:
 
         # Remove the pass statement below and add your implementation there ...
         pass
+
+
+tb = Table('name', 'age')
+tb.insert(**{'name': 'sandra', 'age': 23})
