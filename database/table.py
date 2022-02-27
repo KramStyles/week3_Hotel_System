@@ -1,31 +1,43 @@
 class Table:
     def __init__(self, *fields):
-        self.data = {}
+        self.data = []
         self.cursor = 0
         self.fields = fields
+
+    def validate(self, **params):
+        if not isinstance(params, dict): print("We are expecting a proper dictionary")
+        elif not params: print("We are not expecting an empty dictionary")
+        elif sorted(tuple(params.keys())) != sorted(self.fields): print("The keys don't match. Check your input")
+        else: return True
+
 
     def insert(self, **params):
         # Requirements:
         #   - Add a record entry to the self.data dictionary
-        if not isinstance(params, dict): print("We are expecting a proper dictionary")
-        elif not params: print("We are not expecting an empty dictionary")
-        elif tuple(params.keys()) != self.fields: print("The keys don't match. Check your input")
-        else: self.data = params
+        if self.validate(**params):
+            params['_id'] = len(self.data)+1
+            self.data.append(params)
+            print(self.data)
 
-        # self.data = params
-        # print(self.data)
+
 
         #   - BUT ::::
         #   - Validate that params is a (1) dictionary (2) non-empty (3) Keys are in self.fields list
-        #   - Ensure to generate a record id for the new record using the cursor attribute. Note: ids must always start from 1
-        #   - Ensure to use generated id as key for insert and also inject into the actual record to be inserted with the key => _id
+        #   - Ensure to generate a record id for the new record using the cursor attribute. Note: ids must always start
+        #   from 1
+        #   - Ensure to use generated id as key for insert and also inject into the actual record to be inserted with
+        #   the key => _id
         #   - Manually or allow python to raise appropriate exceptions when there are errors
         #   - Return a dictionary representing the record that has just been successfully inserted
 
         # Remove the pass statement below and add your implementation there ...
-        pass
 
     def select(self, **conditions):
+        if self.validate(**conditions):
+            conditions['_id'] = len(self.data)+1
+            self.data.append(conditions)
+            print(self.data)
+
         # Requirements:
         #   - Filter and return records that has values matching those in the conditions argument
         #   - BUT ::::
@@ -37,5 +49,8 @@ class Table:
         pass
 
 
-tb = Table('name', 'age')
-tb.insert(**{'name': 'sandra', 'age': 23})
+if __name__ == '__main__':
+    tb = Table('name', 'age', 'sex')
+    tb.insert(name="Marky", sex="m", age="20")
+    print(tb.fields, tb.data)
+
