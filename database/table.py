@@ -7,18 +7,20 @@ class Table:
     def validate(self, **params):
         if not isinstance(params, dict): print("We are expecting a proper dictionary")
         elif not params: print("We are not expecting an empty dictionary")
-        elif sorted(tuple(params.keys())) != sorted(self.fields): print("The keys don't match. Check your input")
+        elif sorted(tuple(params.keys())) != sorted(self.fields):
+            for keys in params.keys():
+                if keys not in self.fields:
+                    print("The keys don't match. Check your input")
+                    return False
+                else: return True
         else: return True
-
 
     def insert(self, **params):
         # Requirements:
         #   - Add a record entry to the self.data dictionary
         if self.validate(**params):
             params['_id'] = len(self.data)+1
-            self.data.append(params)
-            print(self.data)
-
+            self.data.append((params))
 
 
         #   - BUT ::::
@@ -34,9 +36,11 @@ class Table:
 
     def select(self, **conditions):
         if self.validate(**conditions):
-            conditions['_id'] = len(self.data)+1
-            self.data.append(conditions)
-            print(self.data)
+            answers = []  # In case answer is empty
+            for query in conditions:
+                answers = [details for details in self.data if query in details and conditions[query] == details[query]]
+            return answers
+
 
         # Requirements:
         #   - Filter and return records that has values matching those in the conditions argument
