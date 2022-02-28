@@ -32,3 +32,5 @@ class Booking(Model):
 
         # Remove the pass statement below and add your implementation there ...
         pass
+
+

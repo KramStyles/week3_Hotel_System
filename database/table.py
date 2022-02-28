@@ -19,6 +19,9 @@ class Table:
         # Requirements:
         #   - Add a record entry to the self.data dictionary
         if self.validate(**params):
+            if '_id' not in self.fields:
+                self.fields = list(self.fields)
+                self.fields.append('_id')
             params['_id'] = len(self.data)+1
             self.data.append((params))
 

@@ -16,5 +16,3 @@ class Hotel(Model):
         # Add your implementation here ...
         instance._id = record['_id']
         instance.name = record['name']
-
-
