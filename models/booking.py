@@ -17,8 +17,12 @@ class Booking(Model):
         instance = cls()
 
         # Add your implementation here ...
-        pass
-    
+
+        instance._id = record['_id']
+        instance.name = record['name']
+        instance.room_id = record['room_id']
+        instance.paid = record['paid']
+
     def room(self, db):
         # Requirements:
         #   - Select rooms from the database that has the room id set on this model as self.room_id
