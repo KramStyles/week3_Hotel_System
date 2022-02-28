@@ -31,6 +31,10 @@ class Booking(Model):
         #   - Return a Room model instance by calling the model's create method with the first record in the query results
 
         # Remove the pass statement below and add your implementation there ...
-        pass
+        rooms = db.rooms.select(_id=self.room_id)
+        if rooms:
+            self.create(rooms[0])
+        else:
+            return None
 
 
