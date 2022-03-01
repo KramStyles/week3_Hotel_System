@@ -1,4 +1,4 @@
-from model import Model
+from .model import Model
 # from database import Database
 
 class Hotel(Model):
@@ -17,6 +17,7 @@ class Hotel(Model):
         instance.name = record['name']
 
         print(instance.name, instance._id)
+        return instance
 
 
 
