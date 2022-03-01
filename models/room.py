@@ -49,9 +49,7 @@ rooms.insert(hotel_id=2, price=2500, capacity=1)
 rooms.insert(hotel_id=1, price=3000, capacity=2)
 rooms.insert(hotel_id=2, price=4000, capacity=2)
 
-Room.create(rooms.select(hotel_id=2)[0])
-create = Room()
-create.hotel(db)
+
 
 hotels = db.hotels
 hotels.insert(name='Chocolate Hotels')
@@ -59,3 +57,8 @@ hotels.insert(name='Strawberry Hotels')
 hotels.insert(name='Hotel De La Paiz')
 
 print(hotels.data)
+print(rooms.data)
+
+Room.create(rooms.select(hotel_id=2)[0])
+create = Room()
+create.hotel(db)

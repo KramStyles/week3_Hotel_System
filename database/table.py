@@ -12,7 +12,7 @@ class Table:
                 return f"You need to fill in the correct parameters {self.fields}"
             elif sorted(tuple(params.keys())) != sorted(self.fields):
                 for keys in params.keys():
-                    if keys not in self.fields:
+                    if keys not in self.fields and keys != '_id':
                         return f"The keys don't match. Check your input ({self.fields})"
                     else:
                         return 'ok'
