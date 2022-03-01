@@ -14,7 +14,7 @@ class Table:
                 for keys in params.keys():
                     if keys not in self.fields and keys != '_id':
                         return f"The keys don't match. Check your input ({self.fields})"
-                    else:
+                    if keys == '_id':
                         return 'ok'
             else:
                 return 'ok'
