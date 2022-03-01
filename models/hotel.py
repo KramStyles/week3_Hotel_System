@@ -1,5 +1,5 @@
-from .model import Model
-
+from model import Model
+# from database import Database
 
 class Hotel(Model):
     _id = None
@@ -10,8 +10,7 @@ class Hotel(Model):
         # Requirements:
         #   - The record argument will always be a dictionary representing a database record
         #   - Assign values from the record dictionary to the corresponding model attributes
-
-        instance = cls
+        instance = cls()
 
         # Add your implementation here ...
         instance._id = record['_id']
@@ -19,5 +18,14 @@ class Hotel(Model):
 
         print(instance.name, instance._id)
 
-    def check(self):
-        print(self._id, self.name)
+
+
+
+# db = Database
+#
+# hotels = db.hotels
+# hotels.insert(name='Chocolate Hotels')
+# hotels.insert(name='Strawberry Hotels')
+# hotels.insert(name = 'Hotel De La Paiz')
+#
+# Hotel.create(hotels.select(name='Chocolate Hotels')[0])
