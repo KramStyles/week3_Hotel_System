@@ -14,7 +14,7 @@ class Booking(Model):
         #   - The record argument will always be a dictionary representing a database record
         #   - Assign values from the record dictionary to the corresponding model attributes
 
-        instance = cls()
+        instance = cls
 
         # Add your implementation here ...
 

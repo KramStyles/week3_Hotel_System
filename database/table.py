@@ -1,17 +1,17 @@
 class Table:
     def __init__(self, *fields):
-        self.data = []
+        self.data = {}
         self.cursor = 0
         self.fields = fields
 
     def validate(self, **params):
         if not isinstance(params, dict): print("We are expecting a proper dictionary")
-        elif not params: print("We are not expecting an empty dictionary")
+        elif not params: return f"You need to fill in the correct parameters {self.fields}"
         elif sorted(tuple(params.keys())) != sorted(self.fields):
             for keys in params.keys():
                 if keys not in self.fields:
-                    print("The keys don't match. Check your input")
-                    return False
+                    return f"The keys don't match. Check your input ({self.fields})"
+                    # return False
                 else: return True
         else: return True
 
@@ -19,12 +19,27 @@ class Table:
         # Requirements:
         #   - Add a record entry to the self.data dictionary
         if self.validate(**params):
-            if '_id' not in self.fields:
-                self.fields = list(self.fields)
-                self.fields.append('_id')
-            params['_id'] = len(self.data)+1
-            self.data.append((params))
+            # if '_id' not in self.fields:
+            #     self.fields = list(self.fields)
+            #     self.fields.append('_id')
+            # params['_id'] = len(self.data)+1
+            # self.data.append((params))
+            self.cursor += 1
+            params['_id'] = self.cursor
+            self.data[self.cursor] = params
+            return params
 
+    def insert2(self, **params):
+
+        if type(params) != dict or params == {}:
+            return print("Empty arguments are not allowed")
+        elif [key for key in params.keys() if key not in self.fields]:
+            return print("Keys don't match expected fields")
+        else:
+            self.cursor += 1
+            params['_id'] = self.cursor
+            self.data2[self.cursor] = params
+            return params
 
         #   - BUT ::::
         #   - Validate that params is a (1) dictionary (2) non-empty (3) Keys are in self.fields list
@@ -35,16 +50,31 @@ class Table:
         #   - Manually or allow python to raise appropriate exceptions when there are errors
         #   - Return a dictionary representing the record that has just been successfully inserted
 
-        # Remove the pass statement below and add your implementation there ...
 
     def select(self, **conditions):
         if self.validate(**conditions):
-            answers = []  # In case answer is empty
             for query in conditions:
-                answers = [details for details in self.data if query in details and conditions[query] == details[query]]
+                answers = [self.data[x] for x in self.data if
+                           query in self.data[x] and conditions[query] == self.data[x][query]]
             return answers
+        return []
 
 
+    def select2(self, **conditions):
+        if type(conditions) != dict or conditions == {}:
+            return print("Empty arguments are not allowed")
+        elif [key for key in conditions.keys() if key not in self.fields]:
+            return print("Keys don't match expected fields")
+        else:
+            pass
+            # lst = []
+            # for num in self.data:
+            #     count = 0
+            #     for key in conditions.keys():
+            #         if conditions[key] == self.data[num][key]:
+            #             count += 1
+            #     if count == len(query.keys()):
+            #         lst.append(rooms[num])
         # Requirements:
         #   - Filter and return records that has values matching those in the conditions argument
         #   - BUT ::::
@@ -54,10 +84,4 @@ class Table:
 
         # Remove the pass statement below and add your implementation there ...
         pass
-
-
-if __name__ == '__main__':
-    tb = Table('name', 'age', 'sex')
-    tb.insert(name="Marky", sex="m", age="20")
-    print(tb.fields, tb.data)
 

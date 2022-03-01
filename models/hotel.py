@@ -11,8 +11,13 @@ class Hotel(Model):
         #   - The record argument will always be a dictionary representing a database record
         #   - Assign values from the record dictionary to the corresponding model attributes
 
-        instance = cls()
+        instance = cls
 
         # Add your implementation here ...
         instance._id = record['_id']
         instance.name = record['name']
+
+        print(instance.name, instance._id)
+
+    def check(self):
+        print(self._id, self.name)

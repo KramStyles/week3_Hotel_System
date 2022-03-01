@@ -7,7 +7,7 @@ class HotelSystem:
 
     def register_hotel(self, name):
         # Requirements:
-        hotel = Hotel.create()
+        hotel = Hotel.create(name)
         #   - Insert new hotel record into the database
         #   - Return a Hotel model instance by calling the model's create method with the query result
 
