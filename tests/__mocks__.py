@@ -10,4 +10,5 @@ room_mock_data = {
 booking_mock_data = {
     'paid': False,
     'name': 'Jane Doe',
+
 }

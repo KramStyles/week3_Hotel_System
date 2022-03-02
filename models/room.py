@@ -22,7 +22,6 @@ class Room(Model):
         instance.hotel_id = record['hotel_id']
         instance.price = record['price']
         instance.capacity = record['capacity']
-        print(instance._id, instance.hotel_id, instance.price, instance.capacity)
         return instance
 
     def hotel(self, db):

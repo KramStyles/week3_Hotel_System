@@ -1,61 +1,87 @@
 import unittest
 
-from database.table import Table
-from __mocks__ import *
+from database import  Database
+import models
+from .__mocks__ import *
 
 
 class TestHotel(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.hotel = Table('name')
-        cls.hotel.data[0] = hotel_mock_data
-        # cls.bookings = Table('room_id', 'name', 'paid')
+        cls.hotel = models.Hotel
+        cls.hotel.data = hotel_mock_data
+        cls.hotel.data['_id'] = 1
 
-    def test_validate(self):
-        self.assertEqual(self.hotel.validate(), f"You need to fill in the correct parameters {self.hotel.fields}")
-        self.assertEqual(self.hotel.validate(names="Dennis hotels"),
-                         f"The keys don't match. Check your input ({self.hotel.fields})")
+    def test_create(self):
+        try:
+            self.assertIsInstance(self.hotel.create(self.hotel.data), models.Hotel)
+            self.assertEqual(self.hotel.create(self.hotel.data).name, "Test Hotel")
+        except TypeError as err:
+            print("A dictionary is expected", err)
 
-        self.assertTrue(self.hotel.validate(name='Benis Hotel'))
-
-    def test_insert(self):
-        self.assertEqual(self.hotel.insert(), f"You need to fill in the correct parameters {self.hotel.fields}")
-        self.assertEqual(self.hotel.insert(names="Dennis hotels"),
-                         f"The keys don't match. Check your input ({self.hotel.fields})")
-        self.assertEqual(self.hotel.insert(name="Dennis hotels"), {'name': 'Dennis hotels', '_id': 1})
-
-    def test_select(self):
-        self.hotel.insert(name="Decagon Hotels")
-        self.assertEqual(self.hotel.select(_id=1), [{'name': 'Dennis hotels', '_id': 1}])
-        self.assertEqual(self.hotel.select(name="Decagon Hotels"), [{'name': 'Decagon Hotels', '_id': 2}])
-        self.assertEqual(self.hotel.select(_id=11), [])
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.hotel = None
 
 
 class TestRoom(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.rooms = Table('hotel_id', 'price', 'capacity')
-        cls.rooms.data[0] = room_mock_data
+        cls.room = models.Room
+        cls.room.data = room_mock_data
+        cls.room.data['_id'] = 1
+        cls.room.data['hotel_id'] = 3
+        cls.DB = Database
 
-    def test_validate(self):
-        self.assertEqual(self.rooms.validate(), f"You need to fill in the correct parameters {self.rooms.fields}")
-        self.assertEqual(self.rooms.validate(names="Dennis hotels"),
-                         f"The keys don't match. Check your input ({self.rooms.fields})")
+    def test_create(self):
+        try:
+            self.assertIsInstance(self.room.create(self.room.data), models.Room)
+            self.assertEqual(self.room.create(self.room.data).capacity, 5)
+        except TypeError as err:
+            print("A dictionary is expected", err)
 
-        self.assertEqual(self.rooms.validate(price=2), 'ok')
+    # def test_room(self):
+    #     try:
+    #         # {'paid': False, 'name': 'Jane Doe', '_id': 1}
+    #         # self.assertIsInstance(self.booking.create(self.booking.data), models.Booking)
+    #         # self.assertFalse(self.booking.create(self.booking.data).paid)
+    #         self.assertEqual(self.booking.room(self, self.DB), '')
+    #     except TypeError as err:
+    #         print("A dictionary is expected", err)
 
-    def test_insert(self):
-        self.assertEqual(self.rooms.insert(), f"You need to fill in the correct parameters {self.rooms.fields}")
-        self.assertEqual(self.rooms.insert(names="Dennis hotels"),
-                         f"The keys don't match. Check your input ({self.rooms.fields})")
-        self.assertEqual(self.rooms.insert(hotel_id=3, price=1000, capacity=1), {'_id': 1, 'capacity': 1, 'hotel_id': 3, 'price': 1000})
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.hotel = None
 
-    def test_select(self):
-        self.assertEqual(self.rooms.select(_id=1), [{'_id': 1, 'capacity': 1, 'hotel_id': 3, 'price': 1000}])
-        self.assertEqual(self.rooms.select(name="Decagon Hotels"), "The keys don't match. Check your input (('hotel_id', 'price', 'capacity'))")
-        self.assertEqual(self.rooms.select(_id=11), [])
 
+class TestBooking(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.booking = models.Booking
+        cls.booking.data = booking_mock_data
+        cls.booking.data['_id'] = 1
+        cls.booking.data['room_id'] = 3
+        cls.DB = Database
+
+    def test_create(self):
+        try:
+            self.assertIsInstance(self.booking.create(self.booking.data), models.Booking)
+            self.assertFalse(self.booking.create(self.booking.data).paid)
+        except TypeError as err:
+            print("A dictionary is expected")
+
+    # def test_room(self):
+    #     try:
+    #         # {'paid': False, 'name': 'Jane Doe', '_id': 1}
+    #         # self.assertIsInstance(self.booking.create(self.booking.data), models.Booking)
+    #         # self.assertFalse(self.booking.create(self.booking.data).paid)
+    #         self.assertEqual(self.booking.room(self, self.DB), '')
+    #     except TypeError as err:
+    #         print("A dictionary is expected", err)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.booking = None
 
 if __name__ == '__main__':
     unittest.main()
-

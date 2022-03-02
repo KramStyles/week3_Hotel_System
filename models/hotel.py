@@ -16,7 +16,6 @@ class Hotel(Model):
         instance._id = record['_id']
         instance.name = record['name']
 
-        print(instance.name, instance._id)
         return instance
 
 

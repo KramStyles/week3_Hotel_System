@@ -1,7 +1,7 @@
 import unittest
 
 from database.table import Table
-from __mocks__ import *
+from .__mocks__ import *
 
 
 class TestHotel(unittest.TestCase):
