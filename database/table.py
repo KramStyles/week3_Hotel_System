@@ -16,6 +16,8 @@ class Table:
                         return f"The keys don't match. Check your input ({self.fields})"
                     if keys == '_id':
                         return 'ok'
+                    else:
+                        return 'ok'
             else:
                 return 'ok'
         except Exception as err:
